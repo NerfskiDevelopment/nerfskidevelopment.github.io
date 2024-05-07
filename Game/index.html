@@ -10,6 +10,41 @@
     <script src="Build/UnityLoader.js"></script>
     <script>
       var unityInstance = UnityLoader.instantiate("unityContainer", "Build/Game.json", {onProgress: UnityProgress});
+
+      ////SECTION BELOW ADDED BY ME, ROBBY.//////
+		//Constructing the GET data from the URL string.
+		var parts = window.location.search.substr(1).split("&");
+		var GetVars = {};
+		for (var i = 0; i < parts.length; i++) {
+			var temp = parts[i].split("=");
+			GetVars[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
+		}
+		
+		window.onload = function(){ //Setting after load, or else the div will be null and throw an error.
+			var gameDiv = document.getElementById("unity-canvas");
+			
+			if(GetVars.gameSize == "auto"){ //If the game is to auto-size based off of the size of the iframe.
+				onResized(); //Forcing dimensions to be set.
+				
+				window.onresize = onResized;
+				
+				function onResized(){
+					var width = document.documentElement.clientWidth;
+					var height = document.documentElement.clientHeight;
+
+					gameDiv.style.width = width + "px";
+					gameDiv.style.height = height + "px";
+				}
+			} else { //If the size of the game is to be controlled based off of the supplied gameWidth and gameHeight parameters.
+				//If gameWidth and/or height has been passed to this iFrame, we set the game's width and height according to it.
+				if(GetVars.gameWidth != undefined){
+					gameDiv.style.width = GetVars.gameWidth + "px";
+				}
+				if(GetVars.gameHeight != undefined){
+					gameDiv.style.height = GetVars.gameHeight + "px";
+				}
+			}
+		}
     </script>
   </head>
   <body>
