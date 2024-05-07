@@ -9,13 +9,4 @@ window.onload = function(){ //Setting game size after window has loaded, or else
   gameFrame.width = gameWidth;
   gameFrame.height = gameHeight + 5; //The +5 seems to fix issue with their being a scroll bar for the game area.
   gameFrame.src += "?gameWidth=" + gameWidth + "&gameHeight=" + gameHeight;
-
-
-
-  startTime();
-
-
-
-  if(getOS() == "Windows") document.getElementById("desktopDownload").innerHTML = '<a href="downloads/Eliatopia Installer.exe"><img src="images/desktop download banner.png" /></a>';
-
 }
