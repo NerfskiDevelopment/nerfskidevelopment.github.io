@@ -8,10 +8,6 @@ body{
   background-image: linear-gradient(#388eff, #90e2fe);
 }
 
-#gameIFrame{
-  background-color: black;
-  height: 100px;
-}
 #infoPanel{
   background-color: white;
   border-radius: 5px;
