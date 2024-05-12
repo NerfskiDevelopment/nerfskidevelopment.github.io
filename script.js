@@ -6,7 +6,7 @@ window.onload = function(){ //Setting game size after window has loaded, or else
 
 
   var gameFrame = document.getElementById("gameIFrame");
-  gameFrame.width = gameWidth;
-  gameFrame.height = gameHeight + 5; //The +5 seems to fix issue with their being a scroll bar for the game area.
+  gameFrame.width = gameWidth + 5;
+  gameFrame.height = gameHeight + 15; //The +5 seems to fix issue with their being a scroll bar for the game area.
   gameFrame.src += "?gameWidth=" + gameWidth + "&gameHeight=" + gameHeight;
 }
