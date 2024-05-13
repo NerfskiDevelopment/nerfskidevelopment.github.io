@@ -5,8 +5,8 @@ window.onload = function(){ //Setting game size after window has loaded, or else
   var gameHeight = window.screen.height * .8; //Setting game height to 80% of the users screen height.  I don't show the full amount so that they don't think it's true full screen and they know a website is below.
 
   //shrinking the window a little bit
-  gameFrame.width -= 80;
-  gameFrame.height -= 100;
+  gameFrame.width = gameWidth - 80;
+  gameFrame.height = gameHeight - 100;
   
   var gameFrame = document.getElementById("gameIFrame");
   gameFrame.width = gameWidth + 25;
