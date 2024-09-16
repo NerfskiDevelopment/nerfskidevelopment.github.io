@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "837160337474",
+    "project_id": "ghoulgame-59239",
+    "storage_bucket": "ghoulgame-59239.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837160337474:android:6e0d1fcac2fb96736d6ddb",
+        "android_client_info": {
+          "package_name": "com.CyroGames.ghoul_valley"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTX0P_7EtN9UBTEqtwyybb6jb63uVOWoU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
