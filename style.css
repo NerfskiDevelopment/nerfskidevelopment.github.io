@@ -5,23 +5,49 @@ body{
   margin: 0;
 }
 
+h1, h2, h3 ,h4 ,h5 ,h6{
+  font-weight: normal;
+}
+
 #infoPanel{
   background-color: white;
   border-radius: 5px;
 }
 
+.nav_bar{
+  height: 100px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.right{
+  float: right;
+}
+
+.play-game{
+  width: 1000px; border-radius: 10px;
+  transition: 0.1s;
+}
+
+.play-game:hover{
+  width: 1025px; border-radius: 10px;
+  transition: 0.1s;
+}
+
+
 button{
-  height: 50px;
-  width: 150px;
-  background-color: #8198e9;
+  padding-left: 25px;
+  padding-right: 25px;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
   border: none;
   border-radius: 10px;
   transition: 0.1s;
 }
 
 button:hover{
-  background: black;
-  color: white;
+  background: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
   transform: translate(0, -5px);
 }
 

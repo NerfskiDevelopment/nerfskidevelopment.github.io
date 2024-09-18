@@ -4,24 +4,41 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Official Website</title>
-  <link href="style.css" rel="stylesheet" type="text/css" />
+  <title>Ghoul Valley | Official Website</title>
+  <link href="./css/layout.css" rel="stylesheet" type="text/css" />
+  <link href="./css/text.css" rel="stylesheet" type="text/css" />
+  <link href="./css/forms.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-  <!--<div id="gameIFrame"></div>-->
-  <center>
-    <iframe src="https://ghoulvalley.com/Game/index.html" width="1050" height="700" frameborder="0" id="gameIFrame" style="padding-left: 0px; padding-right: 0px; margin:0; padding:0px; overflow:hidden;" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" scrolling="no"></iframe>
-  </center>
-    &nbsp;&nbsp;
-  <center>
-    <div id="infoPanel" style="width: 500px;" height="150">
-      <h2>&nbsp;</h2>
-      <a href="https://discord.gg/E2KDpXSv7V"><button id="basicButton" class="fadeIn"> <h3>Join the Discord</h3></button></a>
-      <h2>&nbsp;</h2>
+    <div class="nav_bar">
+        <image src="./images/Logo_Downsized.png" style="height: 60px;"></image>
+        <button id="basicButton2" class="fadeIn right"><h3>Leaderboards</h3></button>
+        <button id="basicButton2" class="fadeIn right"><h3>Economy</h3></button>
+        <a href="https://discord.gg/E2KDpXSv7V"><button class="fadeIn right"><h3>Discord</h3></button></a>
     </div>
-  </center>
-  &nbsp; &nbsp; &nbsp;
+
+    <!--Play game preface-->
+    <center id="play_game1" style="display:block;">
+      <div class="spacer"></div>
+      <image class="play-game" src="./images/PlayGameimage.png" onclick="play();"></image>
+      <div class="spacer"></div>
+    </center>
+    <!--game iframe-->
+    <center id="play_game2" style="display:none;">
+    </center>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="section">
+      <div class="title">News</div>
+      <div class="paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+    </div>
+    <br>
+    <div class="section">
+      <div class="title">Updates</div>
+      <div class="paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+    </div>
+    &nbsp; &nbsp; &nbsp;
   <script src="script.js"></script>
 </body>
 

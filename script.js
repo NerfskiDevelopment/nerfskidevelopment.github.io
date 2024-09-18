@@ -1,4 +1,7 @@
-window.onload = function(){ //Setting game size after window has loaded, or else the unityContainer will be null.
+function play(){
+  document.getElementById("play_game1").style.display = "none";
+  document.getElementById("play_game2").style.display = "block";
+  document.getElementById("play_game2").innerHTML = '      <iframe src="https://ghoulvalley.com/Game/index.html" width="1050" height="700" frameborder="0" id="gameIFrame" style="padding-left: 0px; padding-right: 0px; margin:0; padding:0px; overflow:hidden;" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" scrolling="no"></iframe>';
 
   var gameWidth =  window.screen.width - 17;
 
@@ -11,11 +14,4 @@ window.onload = function(){ //Setting game size after window has loaded, or else
   gameFrame.width = gameWidth;
   gameFrame.height = gameHeight + 50; //The +50 seems to fix issue with their being a scroll bar for the game area.
   gameFrame.src += "?gameWidth=" + gameWidth + "&gameHeight=" + gameHeight;
-
-
-  //dealing with the info panel at the bottom
-  var infoWidth = window.screen.width - 500;
-  var infoPanel = document.getElementById("infoPanel");
-
-  infoPanel.style = "width: " + infoWidth + "px;";
 }

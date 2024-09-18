@@ -1,0 +1,13 @@
+h1, h2, h3 ,h4 ,h5 ,h6{
+font-weight: normal;
+}
+
+.title{
+    font-size: 35px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.paragraph{
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
