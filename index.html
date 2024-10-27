@@ -1,45 +1,91 @@
-<!DOCTYPE html>
-<html>
-
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>Ghoul Valley | Official Website</title>
-  <link href="./css/layout.css" rel="stylesheet" type="text/css" />
-  <link href="./css/text.css" rel="stylesheet" type="text/css" />
-  <link href="./css/forms.css" rel="stylesheet" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="./form.css">
+    <link rel="stylesheet" href="./body.css">
+    <link rel="stylesheet" href="./spin.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
-
+<script src="main.js"></script>
 <body>
-    <div class="nav_bar">
-        <image src="./images/Logo_Downsized.png" style="height: 60px;"></image>
-        <button id="basicButton2" class="fadeIn right"><h3>Leaderboards</h3></button>
-        <button id="basicButton2" class="fadeIn right"><h3>Economy</h3></button>
-        <a href="https://discord.gg/E2KDpXSv7V"><button class="fadeIn right"><h3>Discord</h3></button></a>
+    <div class="form-controller" id="join" style="display:none;">
+        <center>
+            <image src="./logo3.png" style="width: 400px;"></image>
+        </center>
+        <form>
+            <label class="red"id="errorText">&nbsp;</label>
+            <br>
+            <label>&nbsp; ROOM CODE</label>
+            <input type="text" class="border" placeholder="ENTER CODE HERE" id="codeInput">
+            <br><br><br>
+            <label>&nbsp; NAME</label>
+            <input type="text" class="border" placeholder="ENTER NAME HERE" id="nameInput">
+        </form>
+        <button class="border" onclick="joinGame();">JOIN</button>
     </div>
 
-    <!--Play game preface-->
-    <center id="play_game1" style="display:block;">
-      <div class="spacer"></div>
-      <image class="play-game" src="./images/PlayGameimage.png" onclick="play();"></image>
-      <div class="spacer"></div>
-    </center>
-    <!--game iframe-->
-    <center id="play_game2" style="display:none;">
-    </center>
+    <!--Loading Screen-->
+    <div class="form-controller" id="loading" style="display:none;">
+        <center>
+            <div class="spacer"></div>
+            <!--<label>loading</label>
+            <br><br><br>-->
+            <div class="loader"></div>
+        </center>
+    </div>
 
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <div class="section">
-      <div class="title">News</div>
-      <div class="paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+    <!--Connected.. Waiting for players Screen-->
+    <div class="form-controller" id="connected" style="display:none;">
+        <center>
+            <div class="spacer"></div>
+            <label>Waiting for players...</label>
+            <br><br><br>
+            <div class="loader2"></div>
+        </center>
     </div>
-    <br>
-    <div class="section">
-      <div class="title">Updates</div>
-      <div class="paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+
+    <!--Game Starting-->
+    <div class="form-controller" id="starting" style="display:none;">
+        <center>
+            <div class="spacer"></div>
+            <label>Look at the TV!</label>
+            <br><br><br>
+            <div class="loader3"></div>
+        </center>
     </div>
-    &nbsp; &nbsp; &nbsp;
-  <script src="script.js"></script>
+
+    <!--Pick Prompt-->
+    <div class="form-controller" id="pick" style="display:none;">
+        <br><br>
+        <center><label>Choose a Prompt</label></center>
+        <br>
+        <button class="border" onclick="choosePrompt(0);" id="pick1">How did I lose my virginity?</button>
+        <br><br>
+        <button class="border" onclick="choosePrompt(1);" id="pick2">In 1,000 years, when paper money is a distant memory, how will we pay for goods and services?</button>
+        <br><br>
+        <button class="border" onclick="choosePrompt(2);" id="pick3">____. It's a trap!</button>
+    </div>
+
+    <!--Pick Prompt-->
+    <div class="form-controller" id="prompt" style="display:none;">
+        <br><br>
+        <center><label id="promptHere">Prompt Here</label></center>
+        <br>
+        <form>
+            <textarea class="border" style="height:125px;" maxlength="85" id="promptInput"></textarea>
+        </form>
+        <button class="border" onclick="submitPrompt();" id="promptSumbit">Submit</button>
+    </div>
+
+    <!--Vote the best Answer-->
+    <div class="form-controller" id="vote" style="display:none;">
+        <br><br>
+        <center><label>Vote the best answer</label></center>
+        <br>
+        <div id="voteListing">
+        </div>
+    </div>
 </body>
-
-</html>

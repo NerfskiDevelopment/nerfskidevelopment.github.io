@@ -1,0 +1,24 @@
+body {
+    margin:0px;
+    width:100vw;
+    height:98vh;
+    overflow:auto;
+}
+
+.border{
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+
+.spacer{
+    width: 100%;
+    height: 150px;
+}
+
+h3{
+    font-family: "Noto Sans", sans-serif;
+}
+
+.red{
+    color: lightcoral;
+}

@@ -1,0 +1,82 @@
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 8px solid;
+    border-color: #ffffff #0000;
+    animation: l1 1s infinite;
+  }
+  @keyframes l1 {to{transform: rotate(.5turn)}}
+
+  /* HTML: <div class="loader"></div> */
+/* HTML: <div class="loader"></div> */
+.loader2 {
+    width: 40px;
+    height: 26px;
+    --c:no-repeat linear-gradient(#ffffff 0 0);
+    background:
+      var(--c) 0    100%,
+      var(--c) 50%  100%,
+      var(--c) 100% 100%;
+    background-size:8px calc(100% - 4px);
+    position: relative;
+  }
+  .loader2:before {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ffffff;
+    left: 0;
+    top: 0;
+    animation: 
+      l3-1 1.5s  linear infinite alternate,
+      l3-2 0.75s cubic-bezier(0,200,.8,200) infinite;
+  }
+  @keyframes l3-1 {
+    100% {left:calc(100% - 8px)}
+  }
+  @keyframes l3-2 {
+    100% {top:-0.1px}
+  }
+
+/* HTML: <div class="loader"></div> */
+.loader3 {
+    width: 40px;
+    height: 20px;
+    background: rgb(255, 255, 255);
+    position: relative;
+    animation: l9-0 1.5s infinite linear;
+  }
+  .loader3:before,
+  .loader3:after {
+     content:"";
+     position: absolute;
+     background: inherit; 
+     bottom: 100%;
+     width: 50%;
+     height: 100%;
+     animation: inherit;
+     animation-name: l9-1;
+  }
+  .loader3:before {
+    left: 0;
+    transform-origin: bottom left;
+    --s:-1;
+  }
+  .loader3:after {
+    right: 0;
+    transform-origin: bottom right;
+  }
+  @keyframes l9-0 {
+     0%,10%   {transform:translateY(0%)    scaleY(1)}
+     49.99%   {transform:translateY(-50%)  scaleY(1)}
+     50%      {transform:translateY(-50%)  scaleY(-1)}
+     90%,100% {transform:translateY(-100%) scaleY(-1)}
+  }
+  @keyframes l9-1 {
+     10%,90% {transform: rotate(0deg)}
+     50%     {transform: rotate(calc(var(--s,1)*180deg))}
+  }
