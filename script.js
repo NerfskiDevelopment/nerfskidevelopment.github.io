@@ -14,11 +14,39 @@ loadRankings().then(snapshot => {
   previewStatus.textContent = "Rankings are temporarily unavailable.";
 });
 
-document.getElementById("play-button").addEventListener("click", play);
+const playButton = document.getElementById("play-button");
+const playStatus = document.getElementById("play-status");
+playButton.addEventListener("click", play);
 
-function play() {
+async function play() {
   const gamePanel = document.getElementById("play_game2");
-  if (!gamePanel.hidden) return;
+  if (!gamePanel.hidden || playButton.disabled) return;
+
+  playButton.disabled = true;
+  playStatus.hidden = false;
+  playStatus.textContent = "Checking game version…";
+  let clientBuild;
+  try {
+    const response = await fetch("https://server.ghoulvalley.com:4505/api/game/version", {
+      cache: "no-store",
+      signal: AbortSignal.timeout(6000)
+    });
+    if (response.status === 503) {
+      playStatus.textContent = "The game is temporarily unavailable. Try again shortly.";
+      return;
+    }
+    if (!response.ok) throw new Error("Version check failed");
+    clientBuild = (await response.text()).trim();
+    if (!/^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/.test(clientBuild)) {
+      throw new Error("Invalid game version");
+    }
+  } catch {
+    playStatus.textContent = "Can’t reach the game server. Try again.";
+    return;
+  } finally {
+    playButton.disabled = false;
+  }
+  playStatus.hidden = true;
 
   const gameFrame = document.createElement("iframe");
   gameFrame.id = "gameIFrame";
@@ -30,7 +58,7 @@ function play() {
   gamePanel.hidden = false;
   gamePanel.append(gameFrame);
 
-  const gameUrl = new URL("https://ghoulvalley.com/Game/index.html");
+  const gameUrl = new URL("./Game/" + clientBuild + "/index.html", window.location.href);
   gameUrl.searchParams.set("gameWidth", gameFrame.clientWidth);
   gameUrl.searchParams.set("gameHeight", gameFrame.clientHeight);
   gameFrame.src = gameUrl.href;

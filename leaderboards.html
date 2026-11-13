@@ -8,7 +8,7 @@
   <link href="./css/text.css" rel="stylesheet">
   <link href="./css/forms.css" rel="stylesheet">
   <link href="./css/site.css" rel="stylesheet">
-  <link href="./css/leaderboards.css?v=grouped" rel="stylesheet">
+  <link href="./css/leaderboards.css?v=header-20261113" rel="stylesheet">
   <script src="./rank-data.js?v=fame-damage" defer></script>
   <script src="./leaderboards.js?v=fame-damage" defer></script>
 </head>
@@ -31,7 +31,7 @@
         </div>
         <form id="rank-form">
           <label for="rank-name">Username</label>
-          <input id="rank-name" type="search" required autocomplete="off" aria-describedby="rank-help">
+          <input id="rank-name" type="search" placeholder="Enter a username" required autocomplete="off" aria-describedby="rank-help">
           <button class="site-button" type="submit" disabled>Show Ranks</button>
         </form>
       </div>
@@ -43,9 +43,11 @@
           <button type="button" value="pets" aria-pressed="false">Pets</button>
           <button type="button" value="activity" aria-pressed="false">Activity</button>
         </div>
+      </div>
+      <div class="rank-header-status">
+        <p id="rank-status" role="status">Loading rankings.</p>
         <button id="rank-reset" class="site-button" type="button" hidden>Back to Top 25</button>
       </div>
-      <p id="rank-status" role="status">Loading rankings.</p>
     </section>
     <div id="rank-browse">
       <div id="featured-boards" class="board-grid featured-boards"></div>
