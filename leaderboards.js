@@ -3,6 +3,7 @@ const additional = document.getElementById("additional-boards");
 const hourNumber = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
 const results = document.getElementById("rank-results");
 const browse = document.getElementById("rank-browse");
+const filters = document.getElementById("rank-filters");
 const reset = document.getElementById("rank-reset");
 const input = document.getElementById("rank-name");
 const form = document.getElementById("rank-form");
@@ -11,6 +12,55 @@ const status = document.getElementById("rank-status");
 const rankings = loadRankings();
 let searchNumber = 0;
 let browseStatus = "";
+let selectedFilter = "all";
+const boardGroups = {
+  levels: "players", coins: "players", pets: "pets", "pet-parties": "pets",
+  "weekly-xp": "activity", "monster-hunters": "activity", "hours-online": "activity"
+};
+
+function applyFilter() {
+  const container = browse.hidden ? results : browse;
+  const cards = container.querySelectorAll("[data-board-group]");
+  let visible = 0;
+  for (const card of cards) {
+    card.hidden = selectedFilter !== "all" && card.dataset.boardGroup !== selectedFilter;
+    if (!card.hidden) visible++;
+  }
+  const empty = document.getElementById("rank-filter-empty");
+  empty.hidden = cards.length === 0 || visible > 0;
+}
+
+filters.addEventListener("click", event => {
+  const button = event.target.closest("button");
+  if (!button) return;
+  selectedFilter = button.value;
+  for (const option of filters.querySelectorAll("button")) {
+    option.setAttribute("aria-pressed", String(option === button));
+  }
+  applyFilter();
+});
+
+function nextWeeklyReset(now) {
+  const daysToMonday = (8 - now.getUTCDay()) % 7 || 7;
+  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + daysToMonday));
+}
+
+function updateCountdown() {
+  const now = new Date();
+  const next = nextWeeklyReset(now);
+  const minutes = Math.ceil((next - now) / 60000);
+  const days = Math.floor(minutes / 1440);
+  const hours = Math.floor(minutes / 60) % 24;
+  const resetText = next.toLocaleString(undefined, {
+    weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZoneName: "short"
+  });
+  for (const timer of document.querySelectorAll(".weekly-reset")) {
+    timer.dateTime = next.toISOString();
+    timer.textContent = "Resets in " + days + "d " + hours + "h " + minutes % 60 + "m (" + resetText + ")";
+  }
+}
+
+setInterval(updateCountdown, 15000);
 
 function addCell(row, tag, value, className) {
   const cell = document.createElement(tag);
@@ -24,9 +74,9 @@ function addCell(row, tag, value, className) {
 function addBoard(container, boardId, headingText, rows, matchRank) {
   const board = rankBoards[boardId];
   const hasOwner = boardId === "pets";
-  const hasParty = boardId === "pet-parties";
   const card = document.createElement("section");
   card.className = "site-panel rank-board";
+  card.dataset.boardGroup = boardGroups[boardId];
   const heading = document.createElement("h2");
   heading.textContent = headingText;
   card.append(heading);
@@ -51,7 +101,6 @@ function addBoard(container, boardId, headingText, rows, matchRank) {
   addCell(header, "th", hasOwner ? "Pet Name" : "Username");
   addCell(header, "th", board.score, "score");
   if (hasOwner) addCell(header, "th", "Owner");
-  if (hasParty) addCell(header, "th", "Active Pets");
 
   const body = table.createTBody();
   for (const entry of rows) {
@@ -70,15 +119,19 @@ function addBoard(container, boardId, headingText, rows, matchRank) {
     const number = boardId === "hours-online" ? hourNumber : rankNumber;
     addCell(row, "td", number.format(entry.level), "score");
     if (hasOwner) addCell(row, "td", entry.owner);
-    if (hasParty) addCell(row, "td", entry.party.join(", "));
   }
   if (!rows.length) {
     const cell = body.insertRow().insertCell();
-    cell.colSpan = hasOwner || hasParty ? 4 : 3;
+    cell.colSpan = hasOwner ? 4 : 3;
     cell.textContent = "No ranked entries yet.";
   }
 
   card.append(table);
+  if (boardId === "weekly-xp") {
+    const timer = document.createElement("time");
+    timer.className = "weekly-reset";
+    card.insertBefore(timer, table);
+  }
   container.append(card);
 }
 
@@ -92,6 +145,8 @@ rankings.then(snapshot => {
   browseStatus = "Top 25 per board · Updated " + new Date(snapshot.generatedAt).toLocaleString();
   status.textContent = browseStatus;
   searchButton.disabled = false;
+  applyFilter();
+  updateCountdown();
 }).catch(() => {
   status.textContent = "Rankings are temporarily unavailable. Reload to try again.";
 });
@@ -104,6 +159,7 @@ reset.addEventListener("click", () => {
   browse.hidden = false;
   reset.hidden = true;
   status.textContent = browseStatus;
+  applyFilter();
   input.focus();
 });
 
@@ -117,6 +173,7 @@ form.addEventListener("submit", async event => {
   results.replaceChildren();
   results.hidden = false;
   reset.hidden = false;
+  applyFilter();
   status.textContent = "Searching rankings for " + username + "…";
 
   try {
@@ -129,6 +186,8 @@ form.addEventListener("submit", async event => {
     for (const match of windows) {
       addBoard(results, match.board, rankBoards[match.board].title + " · #" + rankNumber.format(match.rank), match.rows, match.rank);
     }
+    applyFilter();
+    updateCountdown();
   } catch {
     if (currentSearch === searchNumber) status.textContent = "Search is temporarily unavailable. Try again.";
   }
