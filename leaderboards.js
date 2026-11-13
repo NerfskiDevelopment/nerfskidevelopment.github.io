@@ -4,7 +4,6 @@ const form = document.getElementById("rank-form");
 const searchButton = form.querySelector("button");
 const status = document.getElementById("rank-status");
 const rankings = loadRankings();
-let usernameIndex;
 let searchNumber = 0;
 
 function addCell(row, tag, value, className) {
@@ -85,29 +84,8 @@ form.addEventListener("submit", async event => {
   if (!username) return;
 
   try {
-    const snapshot = await rankings;
-    const snapshotPath = "snapshots/" + snapshot.version + "/";
-    usernameIndex ??= readRanks(snapshotPath + "lookup.json").catch(error => {
-      usernameIndex = undefined;
-      throw error;
-    });
-    const lookup = await usernameIndex;
-    const key = username.toLowerCase();
-    const matches = Object.hasOwn(lookup, key) ? lookup[key] : [];
-    const pages = new Map();
-    const windows = await Promise.all(matches.map(async match => {
-      const board = snapshot.boards.find(entry => entry.id === match.board);
-      const first = Math.max(1, match.rank - 5);
-      const last = Math.min(board.total, match.rank + 5);
-      const requests = [];
-      for (let page = Math.ceil(first / snapshot.pageSize); page <= Math.ceil(last / snapshot.pageSize); page++) {
-        const path = snapshotPath + match.board + "-" + page + ".json";
-        if (!pages.has(path)) pages.set(path, readRanks(path));
-        requests.push(pages.get(path));
-      }
-      const rows = (await Promise.all(requests)).flat().filter(row => row.rank >= first && row.rank <= last);
-      return { ...match, rows };
-    }));
+    const query = new URLSearchParams({ username });
+    const { matches: windows } = await readRanks("leaderboards/search?" + query);
     if (currentSearch !== searchNumber) return;
 
     results.textContent = "";
