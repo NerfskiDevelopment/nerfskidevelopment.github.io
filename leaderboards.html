@@ -8,9 +8,9 @@
   <link href="./css/text.css" rel="stylesheet">
   <link href="./css/forms.css" rel="stylesheet">
   <link href="./css/site.css" rel="stylesheet">
-  <link href="./css/leaderboards.css?v=filters" rel="stylesheet">
+  <link href="./css/leaderboards.css?v=grouped" rel="stylesheet">
   <script src="./rank-data.js?v=7-boards" defer></script>
-  <script src="./leaderboards.js?v=filters" defer></script>
+  <script src="./leaderboards.js?v=grouped" defer></script>
 </head>
 <body>
   <header class="site-width site-header">
@@ -24,33 +24,36 @@
 
   <main class="site-width leaderboard-page">
     <section class="site-panel rank-search" aria-labelledby="page-title">
-      <h1 class="title" id="page-title">Leaderboards</h1>
-      <p id="rank-help">Enter an exact username to see their standings and nearby ranks.</p>
-      <p>Weekly XP resets Monday at 00:00 UTC. XP and kills are counted from the start of leaderboard tracking.</p>
-      <form id="rank-form">
-        <label for="rank-name">Username</label>
-        <input id="rank-name" type="search" required autocomplete="off" aria-describedby="rank-help">
-        <button class="site-button" type="submit" disabled>Show Ranks</button>
-      </form>
+      <div class="rank-panel-top">
+        <div>
+          <h1 id="page-title">Leaderboards</h1>
+          <p id="rank-help">Find a player by exact username to see their standings and nearby ranks.</p>
+        </div>
+        <form id="rank-form">
+          <label for="rank-name">Username</label>
+          <input id="rank-name" type="search" required autocomplete="off" aria-describedby="rank-help">
+          <button class="site-button" type="submit" disabled>Show Ranks</button>
+        </form>
+      </div>
       <noscript><p>Enable JavaScript to view the rankings.</p></noscript>
-    </section>
-
-    <div id="rank-filters" class="rank-filters" role="group" aria-label="Filter leaderboards">
-      <button type="button" value="all" aria-pressed="true">All</button>
-      <button type="button" value="players" aria-pressed="false">Players</button>
-      <button type="button" value="pets" aria-pressed="false">Pets</button>
-      <button type="button" value="activity" aria-pressed="false">Activity</button>
-    </div>
-    <div class="rank-toolbar">
+      <div class="rank-toolbar">
+        <div id="rank-filters" class="rank-filters" role="group" aria-label="Filter leaderboards">
+          <button type="button" value="all" aria-pressed="true">All</button>
+          <button type="button" value="players" aria-pressed="false">Players</button>
+          <button type="button" value="pets" aria-pressed="false">Pets</button>
+          <button type="button" value="activity" aria-pressed="false">Activity</button>
+        </div>
+        <button id="rank-reset" class="site-button" type="button" hidden>Back to Top 25</button>
+      </div>
       <p id="rank-status" role="status">Loading rankings.</p>
-      <button id="rank-reset" class="site-button" type="button" hidden>Back to Top 25</button>
-    </div>
+    </section>
     <div id="rank-browse">
       <div id="featured-boards" class="board-grid featured-boards"></div>
       <div id="additional-boards" class="board-grid"></div>
     </div>
     <div id="rank-results" class="board-grid featured-boards" hidden></div>
     <p id="rank-filter-empty" role="status" hidden>No boards in this category. Choose another filter to see more.</p>
+    <p class="rank-note">Weekly XP resets Monday at 00:00 UTC. XP and kills are counted from the start of leaderboard tracking.</p>
   </main>
 </body>
 </html>

@@ -71,7 +71,29 @@ function addCell(row, tag, value, className) {
   return cell;
 }
 
-function addBoard(container, boardId, headingText, rows, matchRank) {
+function groupSearchResults(matches, pageSize) {
+  const petPages = new Map();
+  const groups = [];
+  for (const match of matches) {
+    if (!Object.hasOwn(rankBoards, match.board)) continue;
+    if (match.board !== "pets") {
+      groups.push({ board: match.board, ranks: new Set([match.rank]), rows: match.rows });
+      continue;
+    }
+    const page = Math.floor((match.rank - 1) / pageSize) + 1;
+    if (!petPages.has(page)) petPages.set(page, { ranks: new Set(), rows: new Map() });
+    const group = petPages.get(page);
+    group.ranks.add(match.rank);
+    for (const row of match.rows) group.rows.set(row.rank, row);
+  }
+  for (const [page, group] of [...petPages].sort(([a], [b]) => a - b)) {
+    groups.push({ board: "pets", page, ranks: group.ranks,
+      rows: [...group.rows.values()].sort((a, b) => a.rank - b.rank) });
+  }
+  return groups;
+}
+
+function addBoard(container, boardId, headingText, rows, matchRanks) {
   const board = rankBoards[boardId];
   const hasOwner = boardId === "pets";
   const card = document.createElement("section");
@@ -81,7 +103,7 @@ function addBoard(container, boardId, headingText, rows, matchRank) {
   heading.textContent = headingText;
   card.append(heading);
 
-  if (board.art.length) {
+  if (!matchRanks && board.art.length) {
     const art = document.createElement("div");
     art.className = "board-art";
     art.setAttribute("aria-hidden", "true");
@@ -103,9 +125,17 @@ function addBoard(container, boardId, headingText, rows, matchRank) {
   if (hasOwner) addCell(header, "th", "Owner");
 
   const body = table.createTBody();
+  let previousRank;
   for (const entry of rows) {
+    if (previousRank !== undefined && entry.rank > previousRank + 1) {
+      const gap = body.insertRow().insertCell();
+      gap.colSpan = hasOwner ? 4 : 3;
+      gap.className = "rank-gap";
+      gap.textContent = "Ranks " + rankNumber.format(previousRank + 1) + "–" + rankNumber.format(entry.rank - 1) + " omitted";
+    }
+    previousRank = entry.rank;
     const row = body.insertRow();
-    if (entry.rank === matchRank) {
+    if (matchRanks?.has(entry.rank)) {
       row.className = "rank-match";
       row.setAttribute("aria-current", "true");
     }
@@ -178,13 +208,16 @@ form.addEventListener("submit", async event => {
 
   try {
     const query = new URLSearchParams({ username });
-    const { matches } = await readRanks("leaderboards/search?" + query);
+    const { matches, pageSize = 100 } = await readRanks("leaderboards/search?" + query);
     if (currentSearch !== searchNumber) return;
 
-    const windows = matches.filter(match => Object.hasOwn(rankBoards, match.board));
+    const windows = groupSearchResults(matches, pageSize);
     status.textContent = windows.length ? "Standings for " + username : "No ranks found for " + username + ".";
     for (const match of windows) {
-      addBoard(results, match.board, rankBoards[match.board].title + " · #" + rankNumber.format(match.rank), match.rows, match.rank);
+      const detail = match.page === undefined
+        ? "#" + rankNumber.format(match.ranks.values().next().value)
+        : "Page " + rankNumber.format(match.page) + " · " + match.ranks.size + (match.ranks.size === 1 ? " match" : " matches");
+      addBoard(results, match.board, rankBoards[match.board].title + " · " + detail, match.rows, match.ranks);
     }
     applyFilter();
     updateCountdown();
