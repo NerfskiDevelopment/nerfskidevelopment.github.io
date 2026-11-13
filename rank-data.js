@@ -1,4 +1,4 @@
-const leaderboardUrl = new URL("./leaderboard-data/", document.baseURI);
+const leaderboardUrl = new URL("https://server.ghoulvalley.com:4505/api/");
 const rankBoards = {
   levels: { title: "Player Levels", art: ["star", "coin"] },
   pets: { title: "Pet Levels", art: ["dino", "dawg"] }
@@ -12,5 +12,5 @@ async function readRanks(path, cache = "default") {
 }
 
 function loadRankings() {
-  return readRanks("boards.json", "no-cache");
+  return readRanks("leaderboards");
 }
