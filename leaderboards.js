@@ -1,4 +1,6 @@
 const featured = document.getElementById("featured-boards");
+const additional = document.getElementById("additional-boards");
+const hourNumber = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
 const results = document.getElementById("rank-results");
 const form = document.getElementById("rank-form");
 const searchButton = form.querySelector("button");
@@ -17,6 +19,7 @@ function addCell(row, tag, value, className) {
 function addBoard(container, boardId, headingText, rows, matchRank) {
   const board = rankBoards[boardId];
   const hasOwner = boardId === "pets";
+  const hasParty = boardId === "pet-parties";
   const card = document.createElement("section");
   card.className = "site-panel rank-board";
   const heading = document.createElement("h2");
@@ -41,8 +44,9 @@ function addBoard(container, boardId, headingText, rows, matchRank) {
   const header = table.createTHead().insertRow();
   addCell(header, "th", "Rank");
   addCell(header, "th", hasOwner ? "Pet Name" : "Username");
-  addCell(header, "th", "Level", "score");
+  addCell(header, "th", board.score, "score");
   if (hasOwner) addCell(header, "th", "Owner");
+  if (hasParty) addCell(header, "th", "Active Pets");
 
   const body = table.createTBody();
   for (const entry of rows) {
@@ -53,12 +57,14 @@ function addBoard(container, boardId, headingText, rows, matchRank) {
     }
     addCell(row, "td", "#" + rankNumber.format(entry.rank), "rank-number");
     addCell(row, "td", entry.name);
-    addCell(row, "td", rankNumber.format(entry.level), "score");
+    const number = boardId === "hours-online" ? hourNumber : rankNumber;
+    addCell(row, "td", number.format(entry.level), "score");
     if (hasOwner) addCell(row, "td", entry.owner);
+    if (hasParty) addCell(row, "td", entry.party.join(", "));
   }
   if (!rows.length) {
     const cell = body.insertRow().insertCell();
-    cell.colSpan = hasOwner ? 4 : 3;
+    cell.colSpan = hasOwner || hasParty ? 4 : 3;
     cell.textContent = "No ranked entries yet.";
   }
 
@@ -68,7 +74,10 @@ function addBoard(container, boardId, headingText, rows, matchRank) {
 
 rankings.then(snapshot => {
   for (const board of snapshot.boards) {
-    addBoard(featured, board.id, rankBoards[board.id].title + " (" + rankNumber.format(board.total) + " ranked)", board.rows);
+    const details = rankBoards[board.id];
+    if (!details) continue;
+    addBoard(details.featured ? featured : additional, board.id,
+      details.title + " (" + rankNumber.format(board.total) + " ranked)", board.rows);
   }
   status.textContent = "Updated " + new Date(snapshot.generatedAt).toLocaleString();
   searchButton.disabled = false;
@@ -85,7 +94,8 @@ form.addEventListener("submit", async event => {
 
   try {
     const query = new URLSearchParams({ username });
-    const { matches: windows } = await readRanks("leaderboards/search?" + query);
+    const { matches } = await readRanks("leaderboards/search?" + query);
+    const windows = matches.filter(match => Object.hasOwn(rankBoards, match.board));
     if (currentSearch !== searchNumber) return;
 
     results.textContent = "";
