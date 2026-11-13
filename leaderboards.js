@@ -14,7 +14,7 @@ let searchNumber = 0;
 let browseStatus = "";
 let selectedFilter = "all";
 const boardGroups = {
-  levels: "players", coins: "players", pets: "pets", "pet-parties": "pets",
+  levels: "players", coins: "players", shards: "players", pets: "pets", "pet-parties": "pets",
   "weekly-xp": "activity", "monster-hunters": "activity", "hours-online": "activity"
 };
 

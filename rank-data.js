@@ -6,7 +6,8 @@ const rankBoards = {
   "weekly-xp": { title: "Weekly XP Gain", score: "XP", art: ["star"] },
   "monster-hunters": { title: "Monster Hunters", score: "Lifetime Kills", art: ["flame-wand", "thorn"] },
   "hours-online": { title: "Hours Online", score: "Hours", art: ["log"] },
-  coins: { title: "Coins", score: "Balance", art: ["coin"] }
+  coins: { title: "Coins", score: "Balance", art: ["coin"] },
+  shards: { title: "Shards", score: "Balance", art: ["star"] }
 };
 const rankNumber = new Intl.NumberFormat("en-US");
 
