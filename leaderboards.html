@@ -8,9 +8,9 @@
   <link href="./css/text.css" rel="stylesheet">
   <link href="./css/forms.css" rel="stylesheet">
   <link href="./css/site.css" rel="stylesheet">
-  <link href="./css/leaderboards.css" rel="stylesheet">
+  <link href="./css/leaderboards.css?v=rank-view" rel="stylesheet">
   <script src="./rank-data.js?v=7-boards" defer></script>
-  <script src="./leaderboards.js?v=7-boards" defer></script>
+  <script src="./leaderboards.js?v=rank-view" defer></script>
 </head>
 <body>
   <header class="site-width site-header">
@@ -32,13 +32,18 @@
         <input id="rank-name" type="search" required autocomplete="off" aria-describedby="rank-help">
         <button class="site-button" type="submit" disabled>Show Ranks</button>
       </form>
-      <div id="rank-results" aria-live="polite"></div>
       <noscript><p>Enable JavaScript to view the rankings.</p></noscript>
     </section>
 
-    <p id="rank-status" role="status">Loading rankings…</p>
-    <div id="featured-boards" class="board-grid featured-boards"></div>
-    <div id="additional-boards" class="board-grid"></div>
+    <div class="rank-toolbar">
+      <p id="rank-status" role="status">Loading rankings.</p>
+      <button id="rank-reset" class="site-button" type="button" hidden>Back to Top 25</button>
+    </div>
+    <div id="rank-browse">
+      <div id="featured-boards" class="board-grid featured-boards"></div>
+      <div id="additional-boards" class="board-grid"></div>
+    </div>
+    <div id="rank-results" class="board-grid featured-boards" hidden></div>
   </main>
 </body>
 </html>

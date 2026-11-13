@@ -2,11 +2,15 @@ const featured = document.getElementById("featured-boards");
 const additional = document.getElementById("additional-boards");
 const hourNumber = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
 const results = document.getElementById("rank-results");
+const browse = document.getElementById("rank-browse");
+const reset = document.getElementById("rank-reset");
+const input = document.getElementById("rank-name");
 const form = document.getElementById("rank-form");
 const searchButton = form.querySelector("button");
 const status = document.getElementById("rank-status");
 const rankings = loadRankings();
 let searchNumber = 0;
+let browseStatus = "";
 
 function addCell(row, tag, value, className) {
   const cell = document.createElement(tag);
@@ -14,6 +18,7 @@ function addCell(row, tag, value, className) {
   if (tag === "th") cell.scope = "col";
   if (className) cell.className = className;
   row.append(cell);
+  return cell;
 }
 
 function addBoard(container, boardId, headingText, rows, matchRank) {
@@ -26,7 +31,7 @@ function addBoard(container, boardId, headingText, rows, matchRank) {
   heading.textContent = headingText;
   card.append(heading);
 
-  if (matchRank === undefined) {
+  if (board.art.length) {
     const art = document.createElement("div");
     art.className = "board-art";
     art.setAttribute("aria-hidden", "true");
@@ -55,7 +60,12 @@ function addBoard(container, boardId, headingText, rows, matchRank) {
       row.className = "rank-match";
       row.setAttribute("aria-current", "true");
     }
-    addCell(row, "td", "#" + rankNumber.format(entry.rank), "rank-number");
+    const rankCell = addCell(row, "td", "", "rank-number");
+    const badge = document.createElement("span");
+    badge.className = "rank-badge";
+    if (entry.rank <= 3) badge.classList.add("rank-place-" + entry.rank);
+    badge.textContent = "#" + rankNumber.format(entry.rank);
+    rankCell.append(badge);
     addCell(row, "td", entry.name);
     const number = boardId === "hours-online" ? hourNumber : rankNumber;
     addCell(row, "td", number.format(entry.level), "score");
@@ -79,33 +89,47 @@ rankings.then(snapshot => {
     addBoard(details.featured ? featured : additional, board.id,
       details.title + " (" + rankNumber.format(board.total) + " ranked)", board.rows);
   }
-  status.textContent = "Updated " + new Date(snapshot.generatedAt).toLocaleString();
+  browseStatus = "Top 25 per board · Updated " + new Date(snapshot.generatedAt).toLocaleString();
+  status.textContent = browseStatus;
   searchButton.disabled = false;
 }).catch(() => {
   status.textContent = "Rankings are temporarily unavailable. Reload to try again.";
 });
 
+reset.addEventListener("click", () => {
+  ++searchNumber;
+  input.value = "";
+  results.replaceChildren();
+  results.hidden = true;
+  browse.hidden = false;
+  reset.hidden = true;
+  status.textContent = browseStatus;
+  input.focus();
+});
+
 form.addEventListener("submit", async event => {
   event.preventDefault();
-  const currentSearch = ++searchNumber;
-  const username = document.getElementById("rank-name").value.trim();
-  results.textContent = username ? "Searching rankings…" : "Enter a username.";
+  const username = input.value.trim();
   if (!username) return;
+
+  const currentSearch = ++searchNumber;
+  browse.hidden = true;
+  results.replaceChildren();
+  results.hidden = false;
+  reset.hidden = false;
+  status.textContent = "Searching rankings for " + username + "…";
 
   try {
     const query = new URLSearchParams({ username });
     const { matches } = await readRanks("leaderboards/search?" + query);
-    const windows = matches.filter(match => Object.hasOwn(rankBoards, match.board));
     if (currentSearch !== searchNumber) return;
 
-    results.textContent = "";
-    const summary = document.createElement("p");
-    summary.textContent = windows.length ? "Standings for " + username : "No ranks found for " + username + ".";
-    results.append(summary);
+    const windows = matches.filter(match => Object.hasOwn(rankBoards, match.board));
+    status.textContent = windows.length ? "Standings for " + username : "No ranks found for " + username + ".";
     for (const match of windows) {
       addBoard(results, match.board, rankBoards[match.board].title + " · #" + rankNumber.format(match.rank), match.rows, match.rank);
     }
   } catch {
-    if (currentSearch === searchNumber) results.textContent = "Search is temporarily unavailable. Try again.";
+    if (currentSearch === searchNumber) status.textContent = "Search is temporarily unavailable. Try again.";
   }
 });
