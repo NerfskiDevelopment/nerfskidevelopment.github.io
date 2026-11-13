@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ghoul Valley | Leaderboards</title>
+  <link href="./css/layout.css" rel="stylesheet">
+  <link href="./css/text.css" rel="stylesheet">
+  <link href="./css/forms.css" rel="stylesheet">
+  <link href="./css/site.css" rel="stylesheet">
+  <link href="./css/leaderboards.css" rel="stylesheet">
+  <script src="./rank-data.js" defer></script>
+  <script src="./leaderboards.js" defer></script>
+</head>
+<body>
+  <header class="site-width site-header">
+    <a href="./index.html"><img src="./images/Logo_Downsized.png" alt="Ghoul Valley home"></a>
+    <nav aria-label="Main navigation">
+      <a href="./index.html">Home</a>
+      <a href="./leaderboards.html" aria-current="page">Leaderboards</a>
+      <a href="https://discord.gg/E2KDpXSv7V">Discord</a>
+    </nav>
+  </header>
+
+  <main class="site-width leaderboard-page">
+    <section class="site-panel rank-search" aria-labelledby="page-title">
+      <h1 class="title" id="page-title">Leaderboards</h1>
+      <p id="rank-help">Enter an exact username to see their standings and nearby ranks.</p>
+      <form id="rank-form">
+        <label for="rank-name">Username</label>
+        <input id="rank-name" type="search" required autocomplete="off" aria-describedby="rank-help">
+        <button class="site-button" type="submit" disabled>Show Ranks</button>
+      </form>
+      <div id="rank-results" aria-live="polite"></div>
+      <noscript><p>Enable JavaScript to view the rankings.</p></noscript>
+    </section>
+
+    <p id="rank-status" role="status">Loading rankings…</p>
+    <div id="featured-boards" class="board-grid featured-boards"></div>
+  </main>
+</body>
+</html>

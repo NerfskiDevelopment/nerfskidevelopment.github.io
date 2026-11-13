@@ -1,17 +1,39 @@
-function play(){
-  document.getElementById("play_game1").style.display = "none";
-  document.getElementById("play_game2").style.display = "block";
-  document.getElementById("play_game2").innerHTML = '      <iframe src="https://ghoulvalley.com/Game/index.html" width="1050" height="700" frameborder="0" id="gameIFrame" style="padding-left: 0px; padding-right: 0px; margin:0; padding:0px; overflow:hidden;" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" scrolling="no"></iframe>';
+const preview = document.getElementById("preview-ranks");
+const previewStatus = document.getElementById("preview-description");
 
-  var gameWidth =  window.screen.width - 17;
+loadRankings().then(snapshot => {
+  const levels = snapshot.boards.find(board => board.id === "levels");
+  for (const player of levels.rows.slice(0, 3)) {
+    const row = preview.insertRow();
+    row.insertCell().textContent = "#" + player.rank;
+    row.insertCell().textContent = player.name;
+    row.insertCell().textContent = rankNumber.format(player.level);
+  }
+  previewStatus.textContent = levels.total ? "Player Levels" : "No ranked players yet.";
+}).catch(() => {
+  previewStatus.textContent = "Rankings are temporarily unavailable.";
+});
 
-  var gameHeight = window.screen.height * .75 ; //Setting game height to 70% of the users screen height.  I don't show the full amount so that they don't think it's true full screen and they know a website is below.
+document.getElementById("play-button").addEventListener("click", play);
 
-  var gameFrame = document.getElementById("gameIFrame");
+function play() {
+  const gamePanel = document.getElementById("play_game2");
+  if (!gamePanel.hidden) return;
 
+  const gameFrame = document.createElement("iframe");
+  gameFrame.id = "gameIFrame";
+  gameFrame.title = "Ghoul Valley game";
+  gameFrame.allowFullscreen = true;
 
-  //dealing with scrollbar issues
-  gameFrame.width = gameWidth;
-  gameFrame.height = gameHeight + 50; //The +50 seems to fix issue with their being a scroll bar for the game area.
-  gameFrame.src += "?gameWidth=" + gameWidth + "&gameHeight=" + gameHeight;
+  document.getElementById("play_game1").hidden = true;
+  document.querySelector(".site-header").before(gamePanel);
+  gamePanel.hidden = false;
+  gamePanel.append(gameFrame);
+
+  const gameUrl = new URL("https://ghoulvalley.com/Game/index.html");
+  gameUrl.searchParams.set("gameWidth", gameFrame.clientWidth);
+  gameUrl.searchParams.set("gameHeight", gameFrame.clientHeight);
+  gameFrame.src = gameUrl.href;
+  window.scrollTo(0, 0);
+  gameFrame.focus();
 }

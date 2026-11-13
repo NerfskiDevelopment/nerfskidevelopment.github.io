@@ -1,45 +1,59 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ghoul Valley | Official Website</title>
-  <link href="./css/layout.css" rel="stylesheet" type="text/css" />
-  <link href="./css/text.css" rel="stylesheet" type="text/css" />
-  <link href="./css/forms.css" rel="stylesheet" type="text/css" />
+  <link href="./css/layout.css" rel="stylesheet">
+  <link href="./css/text.css" rel="stylesheet">
+  <link href="./css/forms.css" rel="stylesheet">
+  <link href="./css/site.css" rel="stylesheet">
+  <script src="./rank-data.js" defer></script>
+  <script src="./script.js" defer></script>
 </head>
-
 <body>
-    <div class="nav_bar">
-        <image src="./images/Logo_Downsized.png" style="height: 60px;"></image>
-        <button id="basicButton2" class="fadeIn right"><h3>Leaderboards</h3></button>
-        <button id="basicButton2" class="fadeIn right"><h3>Economy</h3></button>
-        <a href="https://discord.gg/E2KDpXSv7V"><button class="fadeIn right"><h3>Discord</h3></button></a>
-    </div>
+  <header class="site-width site-header">
+    <a href="./index.html"><img src="./images/Logo_Downsized.png" alt="Ghoul Valley home"></a>
+    <nav aria-label="Main navigation">
+      <a href="./index.html" aria-current="page">Home</a>
+      <a href="./leaderboards.html">Leaderboards</a>
+      <a href="https://discord.gg/E2KDpXSv7V">Discord</a>
+    </nav>
+  </header>
 
-    <!--Play game preface-->
-    <center id="play_game1" style="display:block;">
-      <div class="spacer"></div>
-      <image class="play-game" src="./images/PlayGameimage.png" onclick="play();"></image>
-      <div class="spacer"></div>
-    </center>
-    <!--game iframe-->
-    <center id="play_game2" style="display:none;">
-    </center>
+  <main class="site-width home-page">
+    <section class="play-panel" id="play_game1" aria-label="Play Ghoul Valley">
+      <button class="play-trigger" id="play-button" type="button">
+        <img src="./images/PlayGameimage.png" alt="">
+        <span class="site-button">Play Ghoul Valley</span>
+      </button>
+    </section>
+    <section class="game-panel" id="play_game2" aria-label="Game" hidden></section>
 
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <div class="section">
-      <div class="title">News</div>
-      <div class="paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+    <div class="home-grid">
+      <section class="site-panel home-card" aria-labelledby="update-title">
+        <h2 id="update-title">Latest Update</h2>
+        <time datetime="2026-11-13">November 13, 2026</time>
+        <h3>Public leaderboards</h3>
+        <p>Browse Player Levels and Pet Levels. Search for a username to see their standings and nearby ranks.</p>
+      </section>
+
+      <section class="site-panel home-card" aria-labelledby="preview-title">
+        <h2 id="preview-title">Leaderboards</h2>
+        <p id="preview-description">Loading rankings…</p>
+        <table class="preview-table" aria-describedby="preview-description">
+          <thead><tr><th scope="col">Rank</th><th scope="col">Player</th><th scope="col">Level</th></tr></thead>
+          <tbody id="preview-ranks"></tbody>
+        </table>
+        <a class="site-button" href="./leaderboards.html">View Leaderboards</a>
+      </section>
     </div>
-    <br>
-    <div class="section">
-      <div class="title">Updates</div>
-      <div class="paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-    </div>
-    &nbsp; &nbsp; &nbsp;
-  <script src="script.js"></script>
+  </main>
+  <footer class="site-width site-footer">
+    <nav aria-label="Legal">
+      <a href="./terms-of-service.html">Terms of Service</a>
+      <a href="./privacy-policy.html">Privacy Policy</a>
+    </nav>
+  </footer>
 </body>
-
 </html>

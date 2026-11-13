@@ -1,0 +1,225 @@
+body {
+  font: 15px Arial, Helvetica, sans-serif;
+  color: #132b46;
+}
+
+.site-width {
+  width: min(1055px, calc(100% - 28px));
+  margin-inline: auto;
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  padding-block: 12px;
+  margin-bottom: 8px;
+}
+
+.site-header img {
+  display: block;
+  height: 60px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.site-header nav, .board-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.site-header nav a, .board-links a {
+  padding: 10px 13px;
+  color: #102945;
+  text-decoration: none;
+  border-radius: 10px;
+}
+
+.site-header nav a:hover,
+.site-header nav a[aria-current="page"],
+.board-links a:hover {
+  background: white;
+}
+
+.site-panel {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 3px 12px rgb(18 61 110 / 16%);
+}
+
+.site-button {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: #185794;
+  color: white;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.site-button:hover {
+  background: #10416f;
+  color: white;
+  transform: none;
+}
+
+:focus-visible {
+  outline: 3px solid #123e6e;
+  outline-offset: 3px;
+}
+
+.home-page, .leaderboard-page {
+  margin-bottom: 40px;
+}
+
+.play-panel {
+  margin-bottom: 16px;
+}
+
+.play-trigger {
+  display: grid;
+  place-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 0;
+  cursor: pointer;
+}
+
+.play-trigger:hover, .play-trigger:active {
+  background: transparent;
+  transform: none;
+}
+
+.play-trigger:hover .site-button {
+  background: #10416f;
+}
+
+.play-trigger img {
+  display: block;
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 3px 12px rgb(18 61 110 / 16%);
+}
+
+.game-panel iframe {
+  display: block;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  border: 0;
+  background: #102945;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.home-card {
+  padding: 16px 20px;
+}
+
+.home-card h2 {
+  margin: 0 0 8px;
+  font-size: 23px;
+}
+
+.home-card h3 {
+  margin: 12px 0 4px;
+  font-weight: bold;
+}
+
+.home-card p {
+  margin: 0 0 8px;
+  line-height: 1.45;
+}
+
+.home-card time {
+  color: #465c73;
+  font-size: 13px;
+}
+
+.preview-table {
+  width: 100%;
+  margin-bottom: 12px;
+  border-collapse: collapse;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.preview-table th, .preview-table td {
+  padding: 5px 6px;
+  text-align: left;
+}
+
+.preview-table th {
+  background: #cde7fb;
+}
+
+.preview-table tbody tr:nth-child(even) {
+  background: #eaf5fe;
+}
+
+.preview-table th:last-child, .preview-table td:last-child {
+  text-align: right;
+}
+
+@media (max-width: 640px) {
+  .home-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.site-footer {
+  padding-bottom: 24px;
+}
+
+.site-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 20px;
+}
+
+.site-footer a {
+  padding: 8px 4px;
+  color: #132b46;
+}
+
+.legal-page {
+  box-sizing: border-box;
+  padding: clamp(16px, 4vw, 36px);
+  margin-bottom: 20px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.legal-page h1, .legal-page h2 {
+  line-height: 1.25;
+}
+
+.legal-note {
+  margin-top: 0;
+  color: #465c73;
+}
+
+.legal-page table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.legal-page th, .legal-page td {
+  padding: 8px;
+  border: 1px solid #cde7fb;
+  text-align: left;
+  vertical-align: top;
+}
+
+.legal-page th {
+  background: #eaf5fe;
+}
