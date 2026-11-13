@@ -7,7 +7,9 @@ const rankBoards = {
   "monster-hunters": { title: "Monster Hunters", score: "Lifetime Kills", art: ["flame-wand", "thorn"] },
   "hours-online": { title: "Hours Online", score: "Hours", art: ["log"] },
   coins: { title: "Coins", score: "Balance", art: ["coin"] },
-  shards: { title: "Shards", score: "Balance", art: ["star"] }
+  shards: { title: "Shards", score: "Balance", art: ["star"] },
+  fame: { title: "Fame", score: "Friend Lists", art: ["guild-flag"] },
+  "peak-damage": { title: "Peak Damage", score: "Highest Hit", art: ["flame-wand"] }
 };
 const rankNumber = new Intl.NumberFormat("en-US");
 
