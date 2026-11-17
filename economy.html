@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ghoul Valley | Economy</title>
+  <link href="./css/layout.css" rel="stylesheet">
+  <link href="./css/text.css" rel="stylesheet">
+  <link href="./css/forms.css" rel="stylesheet">
+  <link href="./css/site.css" rel="stylesheet">
+  <link href="./css/economy.css" rel="stylesheet">
+  <script src="./economy.js" defer></script>
+</head>
+<body>
+  <header class="site-width site-header">
+    <a href="./index.html"><img src="./images/Logo_Downsized.png" alt="Ghoul Valley home"></a>
+    <nav aria-label="Main navigation">
+      <a href="./index.html">Home</a>
+      <a href="./leaderboards.html">Leaderboards</a>
+      <a href="./economy.html" aria-current="page">Economy</a>
+      <a href="https://discord.gg/E2KDpXSv7V">Discord</a>
+    </nav>
+  </header>
+  <main class="site-width economy-page">
+    <section class="site-panel economy-header">
+      <div class="economy-intro">
+        <h1>Economy statistics</h1>
+        <p>Players, currency, and activity across Ghoul Valley.</p>
+      </div>
+      <div class="economy-controls">
+        <div id="ranges" role="group" aria-label="Graph date range">
+          <button type="button" value="7" aria-pressed="false">7 days</button>
+          <button type="button" value="30" aria-pressed="true">30 days</button>
+          <button type="button" value="90" aria-pressed="false">90 days</button>
+          <button type="button" value="all" aria-pressed="false">All time</button>
+        </div>
+        <button id="refresh" class="site-button" type="button">Refresh</button>
+      </div>
+      <p id="economy-status" role="status">Loading economy statistics…</p>
+      <p class="economy-caption">Days follow America/Chicago. Today is still in progress. Data refreshes about every ten minutes.</p>
+      <noscript><p>Enable JavaScript to view the graphs.</p></noscript>
+    </section>
+    <div id="economy-charts" class="economy-grid"></div>
+    <details id="coverage" class="site-panel economy-coverage" hidden>
+      <summary>How these statistics are measured</summary>
+      <ul id="coverage-notes"></ul>
+    </details>
+  </main>
+</body>
+</html>

@@ -117,16 +117,25 @@ body {
 .home-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
-  gap: 12px;
+  gap: 16px;
 }
 
 .home-card {
-  padding: 16px 20px;
+  --card-padding: clamp(16px, 3vw, 24px);
+  padding: 0 var(--card-padding) var(--card-padding);
+  overflow: hidden;
+  border: 1px solid #c7def4;
+  border-radius: 20px;
 }
 
 .home-card h2 {
-  margin: 0 0 8px;
+  margin: 0 calc(-1 * var(--card-padding)) 16px;
+  padding: 16px var(--card-padding);
+  background: linear-gradient(115deg, #112f55, #16588b);
+  color: #fff;
   font-size: 23px;
+  font-weight: 700;
+  letter-spacing: -.025em;
 }
 
 .home-card h3 {
