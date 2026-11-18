@@ -2,30 +2,26 @@
 .economy-page [hidden] { display: none; }
 .economy-header { overflow: hidden; margin-bottom: 20px; border-radius: 20px; }
 .economy-intro { background: linear-gradient(115deg, #112f55, #16588b); color: white; padding: clamp(18px, 4vw, 32px); }
-.economy-intro h1 { margin: 0 0 8px; font-size: clamp(28px, 5vw, 42px); letter-spacing: -.035em; }
-.economy-intro p { margin: 0; color: #deeeff; }
-.economy-controls { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 18px 24px 6px; }
+.economy-intro h1 { margin: 0; font-size: clamp(28px, 5vw, 42px); letter-spacing: -.035em; }
+.economy-controls { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 18px 24px; }
 #ranges { display: flex; gap: 6px; flex-wrap: wrap; }
 #ranges button { min-height: 40px; border: 1px solid #abc8e4; padding: 7px 15px; border-radius: 10px; background: #f3f8ff; color: #112f55; cursor: pointer; font: inherit; }
 #ranges button[aria-pressed="true"] { background: #164c7d; color: white; border-color: #164c7d; }
 .economy-page :focus-visible { outline: 3px solid #1683c4; outline-offset: 3px; }
-#economy-status, .economy-caption { margin: 12px 24px; line-height: 1.5; }
-.economy-caption { color: #465c73; padding-bottom: 10px; font-size: 13px; }
+#economy-status { margin: 12px 24px; line-height: 1.5; }
 .economy-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
 .economy-card { padding: 22px; min-width: 0; border: 1px solid #c7def4; border-radius: 18px; background: #fff; box-shadow: 0 5px 14px #102c4710; }
 .economy-card h2 { margin: 0 0 6px; font-size: 19px; }
 .economy-value { font-size: 28px; font-weight: bold; margin: 8px 0; color: #113b61; }
-.economy-description, .economy-readout { color: #465c73; font-size: 13px; line-height: 1.5; }
-.economy-description { min-height: 40px; margin: 0; }
+.economy-readout { color: #465c73; font-size: 13px; line-height: 1.5; }
 .economy-card canvas { display: block; width: 100%; height: 220px; margin-top: 12px; }
 .economy-legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; margin: 8px 0; }
 .economy-legend span { border-bottom: 3px solid var(--series-color); padding-bottom: 4px; }
-.economy-readout { min-height: 40px; margin: 8px 0; }
+.economy-readout { min-height: 20px; margin: 8px 0; }
 .economy-card details { font-size: 13px; }
 .economy-page summary { cursor: pointer; padding: 8px 0; }
 .economy-table-scroll { max-height: 260px; overflow: auto; margin-top: 10px; }
 .economy-card table { border-collapse: collapse; width: 100%; font-size: 12px; }
 .economy-card td, .economy-card th { text-align: right; padding: 8px 5px; border-bottom: 1px solid #dfebf5; }
 .economy-card td:first-child, .economy-card th:first-child { text-align: left; white-space: nowrap; }
-.economy-coverage { margin-top: 20px; padding: 14px 24px; border-radius: 16px; line-height: 1.6; }
 @media (max-width: 700px) { .economy-grid { grid-template-columns: 1fr; } .economy-card { padding: 18px; } .economy-controls { padding-inline: 18px; } }

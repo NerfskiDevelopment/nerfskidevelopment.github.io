@@ -8,8 +8,8 @@
   <link href="./css/text.css" rel="stylesheet">
   <link href="./css/forms.css" rel="stylesheet">
   <link href="./css/site.css" rel="stylesheet">
-  <link href="./css/economy.css" rel="stylesheet">
-  <script src="./economy.js" defer></script>
+  <link href="./css/economy.css?v=simple-economy-20261117" rel="stylesheet">
+  <script src="./economy.js?v=simple-economy-20261117" defer></script>
 </head>
 <body>
   <header class="site-width site-header">
@@ -25,7 +25,6 @@
     <section class="site-panel economy-header">
       <div class="economy-intro">
         <h1>Economy statistics</h1>
-        <p>Players, currency, and activity across Ghoul Valley.</p>
       </div>
       <div class="economy-controls">
         <div id="ranges" role="group" aria-label="Graph date range">
@@ -36,15 +35,10 @@
         </div>
         <button id="refresh" class="site-button" type="button">Refresh</button>
       </div>
-      <p id="economy-status" role="status">Loading economy statistics…</p>
-      <p class="economy-caption">Days follow America/Chicago. Today is still in progress. Data refreshes about every ten minutes.</p>
+      <p id="economy-status" role="status">Loading...</p>
       <noscript><p>Enable JavaScript to view the graphs.</p></noscript>
     </section>
     <div id="economy-charts" class="economy-grid"></div>
-    <details id="coverage" class="site-panel economy-coverage" hidden>
-      <summary>How these statistics are measured</summary>
-      <ul id="coverage-notes"></ul>
-    </details>
   </main>
 </body>
 </html>

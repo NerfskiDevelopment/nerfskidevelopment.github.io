@@ -6,14 +6,13 @@
   const number = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
   const compact = new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 });
   const definitions = [
-    { title: "Peak concurrent players", keys: ["peakConcurrent"], labels: ["Players"], description: "Highest number of players connected at the same time each day." },
-    { title: "Total money in game", keys: ["money"], labels: ["Coins"], description: "All player balances plus coins on the ground, at the last sample each day." },
-    { title: "Total shards in game", keys: ["shards"], labels: ["Shards"], description: "All account shard balances, at the last sample each day." },
-    { title: "New accounts per day", keys: ["newAccounts"], labels: ["Accounts"], description: "Accounts created each day, including retained registration records." },
-    { title: "Daily active players", keys: ["dailyActive"], labels: ["Players"], description: "Unique players connected each day. Older history counts successful logins." },
-    { title: "Money earned and spent", keys: ["moneyEarned", "moneySpent"], labels: ["Earned", "Spent"], description: "Coins entering and leaving the economy. Transfers between players are excluded." },
-    { title: "Shards added and spent", keys: ["shardsAdded", "shardsSpent"], labels: ["Added", "Spent"], description: "Shards entering and leaving the economy. Transfers between players are excluded." },
-    { title: "Average daily playtime", keys: ["averagePlaytimeMinutes"], labels: ["Minutes"], description: "Connected minutes per active player each day, including time spent idle." }
+    { title: "Peak concurrent players", keys: ["peakConcurrent"], labels: ["Players"] },
+    { title: "Total money in game", keys: ["money"], labels: ["Coins"] },
+    { title: "Total shards in game", keys: ["shards"], labels: ["Shards"] },
+    { title: "New accounts per day", keys: ["newAccounts"], labels: ["Accounts"] },
+    { title: "Daily active players", keys: ["dailyActive"], labels: ["Players"] },
+    { title: "Money earned and spent", keys: ["moneyEarned", "moneySpent"], labels: ["Earned", "Spent"] },
+    { title: "Average daily playtime", keys: ["averagePlaytimeMinutes"], labels: ["Minutes"] }
   ];
   const colors = ["#167bb5", "#b35326"];
   let data;
@@ -25,8 +24,14 @@
     if (className) element.className = className;
     return element;
   }
-  function valid(value) { return typeof value === "number" && Number.isFinite(value); }
-  function format(value) { return valid(value) ? number.format(value) : "No measurement"; }
+  function valid(value) {
+    return typeof value === "number" && Number.isFinite(value) ||
+      typeof value === "string" && /^-?\d+$/.test(value) && Number.isFinite(Number(value));
+  }
+  function format(value) {
+    if (!valid(value)) return "No data";
+    return number.format(typeof value === "string" ? BigInt(value) : value);
+  }
   function dateLabel(value) {
     return new Date(value + "T12:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
   }
@@ -41,7 +46,7 @@
     const context = canvas.getContext("2d");
     context.scale(ratio, ratio);
     const left = 50, top = 12, right = width - 12, bottom = 186;
-    const values = rows.flatMap(row => definition.keys.map(key => row[key])).filter(valid);
+    const values = rows.flatMap(row => definition.keys.map(key => row[key])).filter(valid).map(Number);
     const max = Math.max(1, ...values);
     const min = Math.min(0, ...values);
     const x = index => left + (rows.length <= 1 ? (right - left) / 2 : index * (right - left) / (rows.length - 1));
@@ -87,7 +92,7 @@
       context.fillStyle = "#52677c";
       context.textAlign = "center";
       context.font = "14px Arial";
-      context.fillText("No measurements in this date range", (left + right) / 2, 95);
+      context.fillText("No data in this range", (left + right) / 2, 95);
     }
   }
   function inspect(chart, index) {
@@ -95,8 +100,8 @@
     index = Math.max(0, Math.min(chart.rows.length - 1, index));
     chart.selected = index;
     const row = chart.rows[index];
-    chart.readout.textContent = row.date + " · " + chart.definition.keys.map((key, series) =>
-      chart.definition.labels[series] + " " + format(row[key])).join(" · ");
+    chart.readout.textContent = row.date + " | " + chart.definition.keys.map((key, series) =>
+      chart.definition.labels[series] + " " + format(row[key])).join(" | ");
     draw(chart, index);
   }
   function render() {
@@ -110,10 +115,10 @@
     }
     for (const definition of definitions) {
       const card = text("section", "", "economy-card");
-      card.append(text("h2", definition.title), text("p", definition.description, "economy-description"));
+      card.append(text("h2", definition.title));
       const latest = [...rows].reverse().find(row => definition.keys.some(key => valid(row[key])));
       const value = latest ? definition.keys.map((key, series) =>
-        (definition.keys.length > 1 ? definition.labels[series] + " " : "") + format(latest[key])).join(" / ") : "No measurement";
+        (definition.keys.length > 1 ? definition.labels[series] + " " : "") + format(latest[key])).join(" / ") : "No data";
       card.append(text("p", value, "economy-value"));
       const legend = text("div", "", "economy-legend");
       definition.labels.forEach((label, index) => {
@@ -125,7 +130,7 @@
       canvas.tabIndex = 0;
       canvas.setAttribute("role", "img");
       canvas.setAttribute("aria-label", definition.title + ". Use left and right arrow keys to inspect days, or expand daily values.");
-      const readout = text("p", latest ? "Latest measurement · " + latest.date : "Measurements will appear when collected.", "economy-readout");
+      const readout = text("p", latest ? latest.date : "No data yet.", "economy-readout");
       readout.setAttribute("aria-live", "polite");
       const chart = { canvas, rows, definition, readout, selected: rows.length - 1 };
       canvas.addEventListener("pointermove", event => {
@@ -163,21 +168,20 @@
   }
   async function load() {
     refresh.disabled = true;
-    status.textContent = "Loading economy statistics…";
+    status.hidden = false;
+    status.textContent = "Loading...";
     try {
       const response = await fetch(url, { cache: "no-cache", signal: AbortSignal.timeout(15000) });
       if (!response.ok) throw new Error("Statistics unavailable");
       const result = await response.json();
-      if (!Array.isArray(result.days) || !Array.isArray(result.notes)) throw new Error("Invalid statistics");
+      if (!Array.isArray(result.days)) throw new Error("Invalid statistics");
       data = result;
       render();
-      document.getElementById("coverage-notes").replaceChildren(...data.notes.map(note => text("li", note)));
-      document.getElementById("coverage").hidden = false;
-      status.textContent = "Updated " + new Date(data.generatedAt).toLocaleString() +
-        (data.lastSampleAt ? " · Currency sampled " + new Date(data.lastSampleAt).toLocaleString() : " · Waiting for the first currency sample");
+      status.textContent = "";
+      status.hidden = true;
     } catch {
-      status.textContent = data ? "Refresh failed. Showing the last loaded statistics. Try again shortly." :
-        "Economy statistics are unavailable. Try Refresh shortly.";
+      status.textContent = data ? "Refresh failed. Showing previous data." :
+        "Statistics unavailable. Try Refresh.";
     } finally { refresh.disabled = false; }
   }
   document.getElementById("ranges").addEventListener("click", event => {

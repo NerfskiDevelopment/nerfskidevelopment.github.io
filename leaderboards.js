@@ -147,7 +147,7 @@ function addBoard(container, boardId, headingText, rows, matchRanks) {
     rankCell.append(badge);
     addCell(row, "td", entry.name);
     const number = boardId === "hours-online" ? hourNumber : rankNumber;
-    addCell(row, "td", number.format(entry.level), "score");
+    addCell(row, "td", number.format(boardId === "coins" && typeof entry.level === "string" ? BigInt(entry.level) : entry.level), "score");
     if (hasOwner) addCell(row, "td", entry.owner);
   }
   if (!rows.length) {
