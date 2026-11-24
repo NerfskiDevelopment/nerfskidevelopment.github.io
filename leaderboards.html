@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -9,8 +9,8 @@
   <link href="./css/forms.css" rel="stylesheet">
   <link href="./css/site.css" rel="stylesheet">
   <link href="./css/leaderboards.css?v=header-20261113" rel="stylesheet">
-  <script src="./rank-data.js?v=fame-damage" defer></script>
-  <script src="./leaderboards.js?v=bank-balances-20261117" defer></script>
+  <script src="./rank-data.js?v=guild-leaderboards-20261124" defer></script>
+  <script src="./leaderboards.js?v=guild-leaderboards-20261124" defer></script>
 </head>
 <body>
   <header class="site-width site-header">
@@ -43,12 +43,13 @@
           <button type="button" value="all" aria-pressed="true">All</button>
           <button type="button" value="players" aria-pressed="false">Players</button>
           <button type="button" value="pets" aria-pressed="false">Pets</button>
+          <button type="button" value="guilds" aria-pressed="false">Guilds</button>
           <button type="button" value="activity" aria-pressed="false">Activity</button>
         </div>
       </div>
       <div class="rank-header-status">
         <p id="rank-status" role="status">Loading rankings.</p>
-        <button id="rank-reset" class="site-button" type="button" hidden>Back to Top 25</button>
+        <button id="rank-reset" class="site-button" type="button" hidden>Back to Rankings</button>
       </div>
     </section>
     <div id="rank-browse">
@@ -58,7 +59,7 @@
     <div id="rank-results" class="board-grid featured-boards" hidden></div>
     <p id="rank-filter-empty" role="status" hidden>No boards in this category. Choose another filter to see more.</p>
     <p class="rank-note">Weekly XP resets Monday at 00:00 UTC. XP and kills are counted from the start of leaderboard tracking.</p>
-    <p class="rank-note">Pet Levels, Coins, and Shards show only the Top 25 in search.</p>
+    <p class="rank-note">Pet Levels search shows only the Top 25. Coins and Shards show only the Top 5.</p>
   </main>
 </body>
 </html>

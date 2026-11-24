@@ -1,4 +1,4 @@
-const featured = document.getElementById("featured-boards");
+﻿const featured = document.getElementById("featured-boards");
 const additional = document.getElementById("additional-boards");
 const hourNumber = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
 const results = document.getElementById("rank-results");
@@ -15,6 +15,7 @@ let browseStatus = "";
 let selectedFilter = "all";
 const boardGroups = {
   levels: "players", coins: "players", shards: "players", fame: "players", pets: "pets", "pet-parties": "pets",
+  "guild-levels": "guilds", "guild-contribution": "guilds", contribution: "players",
   "weekly-xp": "activity", "monster-hunters": "activity", "hours-online": "activity", "peak-damage": "activity"
 };
 
@@ -95,6 +96,7 @@ function groupSearchResults(matches, pageSize) {
 
 function addBoard(container, boardId, headingText, rows, matchRanks) {
   const board = rankBoards[boardId];
+  if (boardId === "coins" || boardId === "shards") rows = rows.filter(entry => entry.rank <= 5).slice(0, 5);
   const hasOwner = boardId === "pets";
   const card = document.createElement("section");
   card.className = "site-panel rank-board";
@@ -120,7 +122,7 @@ function addBoard(container, boardId, headingText, rows, matchRanks) {
   table.setAttribute("aria-label", headingText);
   const header = table.createTHead().insertRow();
   addCell(header, "th", "Rank");
-  addCell(header, "th", hasOwner ? "Pet Name" : "Username");
+  addCell(header, "th", hasOwner ? "Pet Name" : board.guild ? "Guild Name" : "Username");
   addCell(header, "th", board.score, "score");
   if (hasOwner) addCell(header, "th", "Owner");
 
@@ -172,7 +174,7 @@ rankings.then(snapshot => {
     addBoard(details.featured ? featured : additional, board.id,
       details.title + " (" + rankNumber.format(board.total) + " ranked)", board.rows);
   }
-  browseStatus = "Top 25 per board · Updated " + new Date(snapshot.generatedAt).toLocaleString();
+  browseStatus = "Top 25 per board; Coins and Shards show Top 5 · Updated " + new Date(snapshot.generatedAt).toLocaleString();
   status.textContent = browseStatus;
   searchButton.disabled = false;
   applyFilter();

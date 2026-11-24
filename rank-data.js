@@ -1,4 +1,4 @@
-const leaderboardUrl = new URL("https://server.ghoulvalley.com:4505/api/");
+﻿const leaderboardUrl = new URL("https://server.ghoulvalley.com:4505/api/");
 const rankBoards = {
   levels: { title: "Player Levels", score: "Level", art: ["star", "coin"], featured: true },
   pets: { title: "Pet Levels", score: "Level", art: ["dino", "dawg"], featured: true },
@@ -9,6 +9,9 @@ const rankBoards = {
   coins: { title: "Coins", score: "Balance", art: ["coin"] },
   shards: { title: "Shards", score: "Balance", art: ["star"] },
   fame: { title: "Fame", score: "Friend Lists", art: ["guild-flag"] },
+  "guild-levels": { title: "Guild Levels", score: "Total Member Levels", guild: true, art: ["guild-flag", "star"] },
+  "guild-contribution": { title: "Guild Contribution", score: "Contribution", guild: true, art: ["guild-flag", "coin"] },
+  contribution: { title: "Player Contribution", score: "Contribution", art: ["guild-flag"] },
   "peak-damage": { title: "Peak Damage", score: "Highest Hit", art: ["flame-wand"] }
 };
 const rankNumber = new Intl.NumberFormat("en-US");
