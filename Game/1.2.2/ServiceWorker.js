@@ -1,9 +1,9 @@
 const cacheName = "DefaultCompany-ghoulv2-1.0.1";
 const contentToCache = [
-    "Build/1.2.1.loader.js",
-    "Build/1.2.1.framework.js.unityweb",
-    "Build/1.2.1.data.unityweb",
-    "Build/1.2.1.wasm.unityweb",
+    "Build/1.2.2.loader.js",
+    "Build/1.2.2.framework.js.unityweb",
+    "Build/1.2.2.data.unityweb",
+    "Build/1.2.2.wasm.unityweb",
     "TemplateData/style.css"
 
 ];
